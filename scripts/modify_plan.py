@@ -91,11 +91,13 @@ def modify_plan_all_client(olt,data):
                     # print(clients_to_init_modify)
                     # print(f"{returned.plan_name} {returned.plan_idx} {returned.srv_profile} {returned.vlan} {returned.line_profile} {returned.gem_port}")
                 elif users.device in bdcm:
-                #      for clave, valor in map_ports.items():
-                #         if valor == f"{users.frame}/{users.slot}/{users.port}":
-                #             return clave
-                #         return None  
-                    # SNMP_Master("get",COMUNNITY, olt_devices[str(olt)], snmp_oid['equipment_id_register'],161,"equi_id",fsp_inicial=map_ports[],ont_id=users.onu_id)
+                    
+                    for clave, valor in map_ports.items():
+                        
+                        if valor == f"{users.frame}/{users.slot}/{users.port}":
+                            modelo_snmp = SNMP_Master("get",COMUNNITY, olt_devices[str(olt)], snmp_oid['equipment_id_register'],161,"equi_id",fsp_inicial=clave,ont_id=users.onu_id)
+                            print(modelo_snmp)
+                    
                     #BDCM---------------------------
                     clients_to_init_modify.update({})
                     clients_to_init_modify.update({
@@ -115,7 +117,14 @@ def modify_plan_all_client(olt,data):
                         "line_profile":returned.line_profile,
                         "gem_port":returned.gem_port,
                 })
-                    reinstall_BDCM(command,clients_to_init_modify)
+                    #Despues de saber si lo detecta como ONU-type-eth-4-pots-2-catv-0  lo verificamos con snmp para saber el equipo
+                    if modelo_snmp == '1126':
+                        reinstall_BDCM(command,clients_to_init_modify)
+                    elif modelo_snmp in router:
+                        reinstall_router(command,olt_devices[str(olt)],clients_to_init_modify)
+                    elif modelo_snmp in router:
+                        reinstall_bridge(command,clients_to_init_modify)
+
     # print(data)
     except Exception as e:
         session.rollback()
