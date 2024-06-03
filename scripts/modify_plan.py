@@ -10,6 +10,8 @@ from devices.BDCM import reinstall_BDCM
 from dotenv import load_dotenv
 from utils.snmp_funtion import SNMP_Master
 import os
+import json
+import datetime
 
 
 load_dotenv()
@@ -124,6 +126,10 @@ def modify_plan_all_client(olt,data):
                         reinstall_router(command,olt_devices[str(olt)],clients_to_init_modify)
                     elif modelo_snmp in router:
                         reinstall_bridge(command,clients_to_init_modify)
+                    elif modelo_snmp == '':
+                        fecha_hora = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+                        with open(f"cliente_omitido-{fecha_hora}.json", "a") as archivo_json:
+                            json.dump(clients_to_init_modify, archivo_json, indent=4)
 
     # print(data)
     except Exception as e:
