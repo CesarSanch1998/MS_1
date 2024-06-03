@@ -29,5 +29,6 @@ def reinstall_BDCM(command,data):
     # command(f"ont port route {data['port']} {data['onu_id']} eth 1-8 enable")
     command(f"quit")
     command(f"service-port {spid['I']} vlan {data['vlan']} gpon {data['frame']}/{data['slot']}/{data['port']} ont {data['onu_id']} gemport {data['gem_port']} multi-service user-vlan {data['vlan']} tag-transform transparent inbound traffic-table index {data['plan_idx']} outbound traffic-table index {data['plan_idx']}")
+    print("\n")
     print(f"Plan reinstall Succefully in client {data['name_1']} {data['name_2']} {data['contract']}")
     return f"Plan reinstall Succefully in client {data['name_1']} {data['name_2']} {data['contract']} "
