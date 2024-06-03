@@ -90,12 +90,12 @@ def modify_plan_all_client(olt,data):
                     reinstall_router(command,olt_devices[str(olt)],clients_to_init_modify)
                     # print(clients_to_init_modify)
                     # print(f"{returned.plan_name} {returned.plan_idx} {returned.srv_profile} {returned.vlan} {returned.line_profile} {returned.gem_port}")
-                elif users.device in bdcm:
-                     for clave, valor in map_ports.items():
-                        if valor == f"{users.frame}/{users.slot}/{users.port}":
-                            return clave
-                        return None  
-                    SNMP_Master("get",COMUNNITY, olt_devices[str(olt)], snmp_oid['equipment_id_register'],161,"equi_id",fsp_inicial=map_ports[],ont_id=users.onu_id)
+                # elif users.device in bdcm:
+                #      for clave, valor in map_ports.items():
+                #         if valor == f"{users.frame}/{users.slot}/{users.port}":
+                #             return clave
+                #         return None  
+                #     SNMP_Master("get",COMUNNITY, olt_devices[str(olt)], snmp_oid['equipment_id_register'],161,"equi_id",fsp_inicial=map_ports[],ont_id=users.onu_id)
                     #BDCM---------------------------
                     clients_to_init_modify.update({})
                     clients_to_init_modify.update({
