@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException
 #////Importando rutas ///////////////////
-from routers.modify_client import modify_client
+from routers.modify_plan import modify_client
 
 app = FastAPI()
 
