@@ -70,7 +70,7 @@ def reinstall_router(command,ip,data):
     command(f"undo service-port {spid['I']}")
     command(f"interface gpon {data['frame']}/{data['slot']}")
     command(f"ont delete {data['port']} {data['onu_id']}")
-    time.sleep(1)
+    time.sleep(4)
     command(f'ont add {data["port"]} sn-auth {data["sn"]} omci ont-lineprofile-id {data["line_profile"]} ont-srvprofile-id {data["srv_profile"]} desc "{data["name_1"]+" "+ data["name_2"] +" "+ data["contract"]}"')
     command(f"ont optical-alarm-profile {data['port']} {data['onu_id']} profile-id 3")
     command(f"ont alarm-policy {data['port']} {data['onu_id']} policy-id 1")

@@ -1,13 +1,14 @@
 from db.connection import session,conn
 from models.client import client_db
 from models.plans import plans_db
-from config.definitions import bridges,router,bdcm
+from config.definitions import bridges,router,bdcm,snmp_oid,map_ports
 from utils.ssh import ssh
 from config.definitions import olt_devices
 from devices.Router import reinstall_router
 from devices.Bridge import reinstall_bridge
 from devices.BDCM import reinstall_BDCM
 from dotenv import load_dotenv
+from utils.snmp_funtion import SNMP_Master
 import os
 
 
@@ -90,7 +91,12 @@ def modify_plan_all_client(olt,data):
                     # print(clients_to_init_modify)
                     # print(f"{returned.plan_name} {returned.plan_idx} {returned.srv_profile} {returned.vlan} {returned.line_profile} {returned.gem_port}")
                 elif users.device in bdcm:
-                    #ROUTER---------------------------
+                     for clave, valor in map_ports.items():
+                        if valor == f"{users.frame}/{users.slot}/{users.port}":
+                            return clave
+                        return None  
+                    SNMP_Master("get",COMUNNITY, olt_devices[str(olt)], snmp_oid['equipment_id_register'],161,"equi_id",fsp_inicial=map_ports[],ont_id=users.onu_id)
+                    #BDCM---------------------------
                     clients_to_init_modify.update({})
                     clients_to_init_modify.update({
                         "contract": users.contract,

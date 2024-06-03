@@ -18,7 +18,6 @@ OPERATION = {
 #     datos.clear()
 #     datos = {}
 #     # print(datos)
-
                     
 #-------------------REQUEST MASTER --------------------------------------
 def SNMP_Master(op,community, host, oid,port,type_request,fsp_inicial="",ont_id=""):
@@ -44,39 +43,9 @@ def SNMP_Master(op,community, host, oid,port,type_request,fsp_inicial="",ont_id=
                 ont_id = varBind[0].prettyPrint().split('.')[-1]
                 resp = varBind[1].prettyPrint()
 
-                if type_request=="desc":
-                    datos[fsp+"-"+ont_id] = {
-                            "fsp": fsp,
-                            "ont_id": ont_id,
-                            "rxont": "",
-                            "rxolt": "",
-                            "sn":"",
-                            "state": "",
-                            "name": resp,
-                            "contract": resp.split()[-1],
-                            "distance": "",
-                            "ST":'',
-                        } 
-                
-                elif type_request=="sn":
-                    # print(f"{fsp} , {ont_id} , {resp}")
-                    data.append({"f/s/p":fsp,
-                                "ont_id":ont_id,
-                                "f/s/p_oid":varBind[0].prettyPrint().split('.')[-2],
-                                "sn":check_sn(resp),
-                                })
 
-                elif type_request=="pw_ont":
-                    rxont = check_power(resp)
-                    # print(f"rxont {rxont}")
-                    return rxont
-                    # datos[fsp+"-"+ont_id]['rxont'] = check_power(resp)
-                elif type_request=="pw_olt":
-                    # print("olt: ",check_power_olt(resp))
-                    rxolt = check_power_olt(resp)
-                    # print(f"rxolt {rxolt}")
-                    return rxolt
-                elif type_request=="equi_id":
+                if type_request=="equi_id":
                     equip_id_register =  resp
                     return equip_id_register
-    return data
+                
+    return equip_id_register
