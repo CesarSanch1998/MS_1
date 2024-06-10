@@ -38,6 +38,7 @@ class modify_plan_all_client(BaseModel):
     name_1 :  str
     name_2 : str
     sn : str
+    state : str
     device :  str
     plan_name_old : str
     plan_name_new : str

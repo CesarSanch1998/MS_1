@@ -33,6 +33,10 @@ def reinstall_bridge(command,data):
     command(f'ont delete {data["port"]} {data["onu_id"]}')
     time.sleep(1)
     command(f'ont add {data["port"]} {data["onu_id"]} sn-auth {data["sn"]} omci ont-lineprofile-id {data["line_profile"]} ont-srvprofile-id {data["srv_profile"]} desc "{data["name_1"]+" "+ data["name_2"] +" "+ data["contract"]}" ')
+    
+    if data["state"] != 'active':
+        command(f"ont deactivate {data['port']} {data['onu_id']}")
+    
     command(f'ont optical-alarm-profile {data["port"]} {data["onu_id"]} profile-id 3')
     command(f'ont alarm-policy {data["port"]} {data["onu_id"]} policy-id 1')
     command(f'ont fec {data["port"]} {data["onu_id"]} use-profile-config')

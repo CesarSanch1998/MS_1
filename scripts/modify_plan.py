@@ -58,6 +58,7 @@ def modify_plan_all_client(olt,data):
                         "name_1": users.name_1,
                         "name_2": users.name_2,
                         "sn": users.sn,
+                        "state":users.state,
                         "plan_name_old": users.plan_name_old,
                         "plan_name_new": returned.plan_name,
                         "plan_idx":returned.plan_idx,
@@ -66,7 +67,7 @@ def modify_plan_all_client(olt,data):
                         "line_profile":returned.line_profile,
                         "gem_port":returned.gem_port,
                 })
-                    print(clients_to_init_modify)
+                    # print(clients_to_init_modify)
                     reinstall_bridge(command,clients_to_init_modify)
                     # print(f"{returned.plan_name} {returned.plan_idx} {returned.srv_profile} {returned.vlan} {returned.line_profile} {returned.gem_port}")
                 elif users.device in router:
