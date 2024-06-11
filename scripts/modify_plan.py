@@ -130,7 +130,7 @@ def modify_plan_all_client(olt,data):
                     elif modelo_snmp in router:
                         reinstall_bridge(command,clients_to_init_modify)
                     elif modelo_snmp == '':
-                        fecha_hora = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
+                        fecha_hora = datetime.datetime.now().strftime("%Y-%m-%d")
                         with open(f"cliente_omitido-{fecha_hora}.json", "a") as archivo_json:
                             json.dump(clients_to_init_modify, archivo_json, indent=4)
 
