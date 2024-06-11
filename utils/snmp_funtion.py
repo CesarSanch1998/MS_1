@@ -87,11 +87,14 @@ def SNMP_Master(op, community, host, oid, port, type_request, fsp_inicial="", on
                         resp = varBind[1].prettyPrint()
                         
                         if type_request == "equi_id":
-                            equip_id_register = resp
-                            return equip_id_register
+                            value = resp
+                            return value
+                        if type_request == "state":
+                            value = resp
+                            return value
 
             # If the loop completes without an exception, the operation was successful, so return
-            return equip_id_register
+            return value
 
         except Exception as e:
             retries += 1

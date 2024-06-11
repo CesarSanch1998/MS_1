@@ -1,7 +1,7 @@
 from db.connection import session,conn
 from models.client import client_db
 from models.plans import plans_db
-from config.definitions import bridges,router,bdcm,snmp_oid,map_ports
+from config.definitions import bridges,router,bdcm,snmp_oid,map_ports,state_types
 from utils.ssh import ssh
 from config.definitions import olt_devices
 from devices.Router import reinstall_router
@@ -47,6 +47,8 @@ def modify_plan_all_client(olt,data):
             if returned == None:
                 return "Plan no existe en la DB"
             else:
+                state_client = SNMP_Master("get",COMUNNITY, olt_devices[str(olt)], snmp_oid['state'],161,"state",fsp_inicial=clave,ont_id=users.onu_id)
+                
                 if users.device in bridges:
                     clients_to_init_modify.update({})
                     clients_to_init_modify.update({
@@ -58,7 +60,7 @@ def modify_plan_all_client(olt,data):
                         "name_1": users.name_1,
                         "name_2": users.name_2,
                         "sn": users.sn,
-                        "state":users.state,
+                        "state":state_types[state_client],
                         "plan_name_old": users.plan_name_old,
                         "plan_name_new": returned.plan_name,
                         "plan_idx":returned.plan_idx,
@@ -82,7 +84,7 @@ def modify_plan_all_client(olt,data):
                         "name_1": users.name_1,
                         "name_2": users.name_2,
                         "sn": users.sn,
-                        "state":users.state,
+                        "state":state_types[state_client],
                         "plan_name_old": users.plan_name_old,
                         "plan_name_new": returned.plan_name,
                         "plan_idx":returned.plan_idx,
@@ -113,7 +115,7 @@ def modify_plan_all_client(olt,data):
                         "name_1": users.name_1,
                         "name_2": users.name_2,
                         "sn": users.sn,
-                        "state":users.state,
+                        "state":state_types[state_client],
                         "plan_name_old": users.plan_name_old,
                         "plan_name_new": returned.plan_name,
                         "plan_idx":returned.plan_idx,
