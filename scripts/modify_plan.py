@@ -134,6 +134,7 @@ def modify_plan_all_client(olt,data):
                     elif modelo_snmp in router:
                         reinstall_bridge(command,clients_to_init_modify)
                     elif modelo_snmp == '':
+                        print("EL EQUIPO ESTA APAGADO SE INSTALARA CONFIG PERSONALIZADA!!")
                         reinstall_router(command,olt_devices[str(olt)],clients_to_init_modify)
                         # fecha_hora = datetime.datetime.now().strftime("%Y-%m-%d")
                         # with open(f"cliente_omitido-{fecha_hora}.json", "a") as archivo_json:
