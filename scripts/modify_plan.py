@@ -47,7 +47,9 @@ def modify_plan_all_client(olt,data):
             if returned == None:
                 return "Plan no existe en la DB"
             else:
-                state_client = SNMP_Master("get",COMUNNITY, olt_devices[str(olt)], snmp_oid['state'],161,"state",fsp_inicial=clave,ont_id=users.onu_id)
+                for clave, valor in map_ports.items():
+                        if valor == f"{users.frame}/{users.slot}/{users.port}":
+                            state_client = SNMP_Master("get",COMUNNITY, olt_devices[str(olt)], snmp_oid['state'],161,"state",fsp_inicial=clave,ont_id=users.onu_id)
                 
                 if users.device in bridges:
                     clients_to_init_modify.update({})
