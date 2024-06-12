@@ -106,9 +106,30 @@ def modify_plan_all_client(olt,data):
                             modelo_snmp = SNMP_Master("get",COMUNNITY, olt_devices[str(olt)], snmp_oid['equipment_id_register'],161,"equi_id",fsp_inicial=clave,ont_id=users.onu_id)
                             print(modelo_snmp)
                     
-                    #BDCM---------------------------
-                    clients_to_init_modify.update({})
-                    clients_to_init_modify.update({
+                #     #BDCM---------------------------
+                #     clients_to_init_modify.update({})
+                #     clients_to_init_modify.update({
+                #         "contract": users.contract,
+                #         "frame": users.frame,
+                #         "slot": users.slot,
+                #         "port":users.port,
+                #         "onu_id":users.onu_id,
+                #         "name_1": users.name_1,
+                #         "name_2": users.name_2,
+                #         "sn": users.sn,
+                #         "state":state_types[state_client],
+                #         "plan_name_old": users.plan_name_old,
+                #         "plan_name_new": returned.plan_name,
+                #         "plan_idx":returned.plan_idx,
+                #         "srv_profile":returned.srv_profile,
+                #         "vlan":returned.vlan,
+                #         "line_profile":returned.line_profile,
+                #         "gem_port":returned.gem_port,
+                # })
+                    #Despues de saber si lo detecta como ONU-type-eth-4-pots-2-catv-0  lo verificamos con snmp para saber el equipo
+                    if modelo_snmp == '1126':
+                        clients_to_init_modify.update({})
+                        clients_to_init_modify.update({
                         "contract": users.contract,
                         "frame": users.frame,
                         "slot": users.slot,
@@ -126,19 +147,55 @@ def modify_plan_all_client(olt,data):
                         "line_profile":returned.line_profile,
                         "gem_port":returned.gem_port,
                 })
-                    #Despues de saber si lo detecta como ONU-type-eth-4-pots-2-catv-0  lo verificamos con snmp para saber el equipo
-                    if modelo_snmp == '1126':
                         reinstall_BDCM(command,clients_to_init_modify)
                     elif modelo_snmp in router:
+                        clients_to_init_modify.update({})
+                        clients_to_init_modify.update({
+                        "contract": users.contract,
+                        "frame": users.frame,
+                        "slot": users.slot,
+                        "port":users.port,
+                        "onu_id":users.onu_id,
+                        "name_1": users.name_1,
+                        "name_2": users.name_2,
+                        "sn": users.sn,
+                        "state":state_types[state_client],
+                        "plan_name_old": users.plan_name_old,
+                        "plan_name_new": returned.plan_name,
+                        "plan_idx":returned.plan_idx,
+                        "srv_profile":returned.srv_profile,
+                        "vlan":returned.vlan,
+                        "line_profile":returned.line_profile,
+                        "gem_port":returned.gem_port,
+                })
                         reinstall_router(command,olt_devices[str(olt)],clients_to_init_modify)
-                    elif modelo_snmp in router:
+                    elif modelo_snmp in bridges:
+                        clients_to_init_modify.update({})
+                        clients_to_init_modify.update({
+                        "contract": users.contract,
+                        "frame": users.frame,
+                        "slot": users.slot,
+                        "port":users.port,
+                        "onu_id":users.onu_id,
+                        "name_1": users.name_1,
+                        "name_2": users.name_2,
+                        "sn": users.sn,
+                        "state":state_types[state_client],
+                        "plan_name_old": users.plan_name_old,
+                        "plan_name_new": returned.plan_name,
+                        "plan_idx":returned.plan_idx,
+                        "srv_profile":returned.srv_profile,
+                        "vlan":returned.vlan,
+                        "line_profile":returned.line_profile,
+                        "gem_port":returned.gem_port,
+                })
                         reinstall_bridge(command,clients_to_init_modify)
                     elif modelo_snmp == '':
                         print("EL EQUIPO ESTA APAGADO SE INSTALARA CONFIG PERSONALIZADA!!")
-                        reinstall_router(command,olt_devices[str(olt)],clients_to_init_modify)
-                        # fecha_hora = datetime.datetime.now().strftime("%Y-%m-%d")
-                        # with open(f"cliente_omitido-{fecha_hora}.json", "a") as archivo_json:
-                        #     json.dump(clients_to_init_modify, archivo_json, indent=4)
+                        # reinstall_router(command,olt_devices[str(olt)],clients_to_init_modify)
+                        fecha_hora = datetime.datetime.now().strftime("%Y-%m-%d")
+                        with open(f"cliente_omitido-{fecha_hora}.json", "a") as archivo_json:
+                            json.dump(clients_to_init_modify, archivo_json, indent=4)
 
     # print(data)
     except Exception as e:
